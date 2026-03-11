@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/umsu2/renovate_testing/twosum"
+	_ "golang.org/x/net/html" // Intentionally vulnerable version for testing GH alerts
 )
 
 func main() {
