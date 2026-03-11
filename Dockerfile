@@ -5,6 +5,7 @@
 # =============================================================================
 FROM dhi.io/golang:1.26.1-debian13-dev AS builder
 
+
 WORKDIR /build
 
 # Copy dependency manifests first to leverage layer caching.
@@ -35,6 +36,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
 # dhi.io images run as an existing nonroot user by default.
 # =============================================================================
 FROM dhi.io/golang:1.26.1-debian13
+
 
 WORKDIR /app
 
