@@ -10,8 +10,14 @@
   "platformAutomerge": true,
   "rebaseWhen": "behind-base-branch",
   "automergeType": "pr",
-  "prConcurrentLimit": 0,
+  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+  "labels": ["dependencies", "renovate"],
   "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies",
+      "automerge": true
+    },
     {
       "matchManagers": ["gomod"],
       "matchUpdateTypes": ["minor", "patch"],
@@ -23,11 +29,7 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "docker base images",
       "automerge": true
-    },
-    {
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "all non-major dependencies",
-      "automerge": true
     }
-  ]
+  ],
+  "timezone": "UTC"
 }
