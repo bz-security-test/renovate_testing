@@ -9,7 +9,6 @@
   "dependencyDashboard": true,
   "platformAutomerge": true,
   "rebaseWhen": "behind-base-branch",
-  "automergeType": "pr",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "labels": ["dependencies", "renovate"],
   "packageRules": [
