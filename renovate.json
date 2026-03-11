@@ -26,12 +26,5 @@
       "groupName": "docker base images"
     }
   ],
-  "hostRules": [
-    {
-      "matchHost": "dhi.io",
-      "username": "{{ secrets.DHI_USERNAME }}",
-      "password": "{{ secrets.DHI_PASSWORD }}"
-    }
-  ],
   "timezone": "UTC"
 }
