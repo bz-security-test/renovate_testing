@@ -7,23 +7,25 @@
     ":prHourlyLimitNone"
   ],
   "dependencyDashboard": true,
+  "platformAutomerge": true,
+  "rebaseWhen": "behind-base-branch",
   "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "all non-major dependencies",
+      "groupName": "all non-major dependencies update",
       "automerge": true
     },
     {
       "matchManagers": ["gomod"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "go modules",
+      "groupName": "go modules update ",
       "automerge": true
     },
     {
       "matchManagers": ["dockerfile"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "docker base images",
+      "groupName": "docker base images update",
       "automerge": true
     }
   ]
