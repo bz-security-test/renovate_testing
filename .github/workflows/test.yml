@@ -1,4 +1,4 @@
-name: Go
+name: Update security report
 
 on:
   push:
@@ -15,12 +15,12 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 
-    - name: Login to dhi.io
-      uses: docker/login-action@v4
-      with:
-        registry: dhi.io
-        username: ${{ secrets.DHI_USERNAME }}
-        password: ${{ secrets.DHI_PASSWORD }}
+    # - name: Login to dhi.io
+    #   uses: docker/login-action@v4
+    #   with:
+    #     registry: dhi.io
+    #     username: ${{ secrets.DHI_USERNAME }}
+    #     password: ${{ secrets.DHI_PASSWORD }}
 
     - name: Build and Test via Docker Builder
       run: docker run --rm $(docker build -q --target builder .) go test -v -race ./...
