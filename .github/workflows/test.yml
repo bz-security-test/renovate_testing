@@ -58,31 +58,32 @@ jobs:
         report_formats: sarif
       env:
         FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
-
-
+    - name: Grype image scan
+      id: grype-scan
+      uses: anchore/scan-action@v6
+      env:
+        GRYPE_CONFIG: ./.grype.yaml
+      with:
+        image: my-app:latest
+        output-format: sarif
+        output-file: grype-results.sarif
+        fail-build: false
+        severity-cutoff: medium
 
     - name: Upload dependency scan results
       uses: github/codeql-action/upload-sarif@v4
-      if: always()
+      if: always() && hashFiles('iac-scan.sarif') != ''
       with:
         sarif_file: 'iac-scan.sarif'
 
     - name: Upload FCS image scan results
       uses: github/codeql-action/upload-sarif@v4
-      if: always()
+      if: always() && hashFiles('scan-results.sarif') != ''
       with:
         sarif_file: 'scan-results.sarif'
 
-    - name: Grype image scan
-      id: grype-scan
-      uses: anchore/scan-action@v6
-      with:
-        image: my-app:latest
-        fail-build: false
-        severity-cutoff: medium
-
     - name: Upload Grype image scan results
       uses: github/codeql-action/upload-sarif@v4
-      if: always()
+      if: always() && hashFiles('grype-results.sarif') != ''
       with:
-        sarif_file: ${{ steps.grype-scan.outputs.sarif }}
+        sarif_file: 'grype-results.sarif'

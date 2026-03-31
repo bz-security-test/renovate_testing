@@ -1,0 +1,16 @@
+ignore:
+  # Ignore by CVE globally.
+  - vulnerability: CVE-2023-12345
+    reason: "Temporary risk acceptance; tracked in SEC-1234."
+
+  # Ignore a CVE for a specific Go module only.
+  - vulnerability: CVE-2024-99999
+    package:
+      name: golang.org/x/net
+      type: go-module
+    reason: "False positive for this build target."
+
+  # Ignore CVE entries where no fix is available yet.
+  - vulnerability: CVE-2022-11111
+    fix-state: not-fixed
+    reason: "No upstream fix available yet."
