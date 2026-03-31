@@ -42,7 +42,7 @@ jobs:
         report_sort_by: severity/desc
         no_color: false
         platform: linux/amd64
-        output_path: './scan-results'
+        output_path: './scan-results.sarif'
         report_formats: sarif
       env:
         FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
