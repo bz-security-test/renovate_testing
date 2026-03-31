@@ -28,6 +28,18 @@ jobs:
     - name: Build final image for scanning
       run: docker build -t my-app:latest .
 
+    - name: FCS IaC scan (repo source)
+      uses: crowdstrike/fcs-action@v4.0.0
+      with:
+        falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
+        falcon_region: 'us-2'
+        scan_type: iac
+        path: '.'
+        report_formats: sarif
+        output_path: './iac-scan.sarif'
+      env:
+        FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+
     - name: Advanced Image Scan
       uses: crowdstrike/fcs-action@v4.0.0
       with:
@@ -47,8 +59,30 @@ jobs:
       env:
         FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
 
-    - name: Upload Trivy scan results to GitHub Security tab
+
+
+    - name: Upload dependency scan results
+      uses: github/codeql-action/upload-sarif@v4
+      if: always()
+      with:
+        sarif_file: 'iac-scan.sarif'
+
+    - name: Upload FCS image scan results
       uses: github/codeql-action/upload-sarif@v4
       if: always()
       with:
         sarif_file: 'scan-results.sarif'
+
+    - name: Grype image scan
+      id: grype-scan
+      uses: anchore/scan-action@v6
+      with:
+        image: my-app:latest
+        fail-build: false
+        severity-cutoff: medium
+
+    - name: Upload Grype image scan results
+      uses: github/codeql-action/upload-sarif@v4
+      if: always()
+      with:
+        sarif_file: ${{ steps.grype-scan.outputs.sarif }}
