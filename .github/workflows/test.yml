@@ -2,9 +2,9 @@ name: Update security report
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   test:
@@ -13,77 +13,59 @@ jobs:
       contents: read
       security-events: write
     steps:
-    - uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
-    # - name: Login to dhi.io
-    #   uses: docker/login-action@v4
-    #   with:
-    #     registry: dhi.io
-    #     username: ${{ secrets.DHI_USERNAME }}
-    #     password: ${{ secrets.DHI_PASSWORD }}
+      # - name: Login to dhi.io
+      #   uses: docker/login-action@v4
+      #   with:
+      #     registry: dhi.io
+      #     username: ${{ secrets.DHI_USERNAME }}
+      #     password: ${{ secrets.DHI_PASSWORD }}
 
-    - name: Build and Test via Docker Builder
-      run: docker run --rm $(docker build -q --target builder .) go test -v -race ./...
+      - name: Build and Test via Docker Builder
+        run: docker run --rm $(docker build -q --target builder .) go test -v -race ./...
 
-    - name: Build final image for scanning
-      run: docker build -t my-app:latest .
+      - name: Build final image for scanning
+        run: docker build -t my-app:latest .
 
-    - name: FCS IaC scan (repo source)
-      uses: crowdstrike/fcs-action@v4.0.0
-      with:
-        falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
-        falcon_region: 'us-2'
-        scan_type: iac
-        path: '.'
-        report_formats: sarif
-        output_path: './iac-scan.sarif'
-      env:
-        FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+      - name: Advanced Image Scan
+        uses: crowdstrike/fcs-action@v4.0.0
+        with:
+          falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
+          falcon_region: "us-2"
+          scan_type: image
+          image: my-app:latest
+          minimum_severity: medium
+          minimum_exprt: medium
+          show_full_description: true
+          show_full_detection_details: true
+          report_sort_by: severity/desc
+          no_color: false
+          platform: linux/amd64
+          output_path: "./scan-results.sarif"
+          report_formats: sarif
+        env:
+          FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+      - name: Grype image scan
+        id: grype-scan
+        uses: anchore/scan-action@v6
+        env:
+          GRYPE_CONFIG: ./.grype.yaml
+        with:
+          image: my-app:latest
+          output-format: sarif
+          output-file: grype-results.sarif
+          fail-build: false
+          severity-cutoff: medium
 
-    - name: Advanced Image Scan
-      uses: crowdstrike/fcs-action@v4.0.0
-      with:
-        falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
-        falcon_region: 'us-2'
-        scan_type: image
-        image: my-app:latest
-        minimum_severity: medium
-        minimum_exprt: medium
-        show_full_description: true
-        show_full_detection_details: true
-        report_sort_by: severity/desc
-        no_color: false
-        platform: linux/amd64
-        output_path: './scan-results.sarif'
-        report_formats: sarif
-      env:
-        FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
-    - name: Grype image scan
-      id: grype-scan
-      uses: anchore/scan-action@v6
-      env:
-        GRYPE_CONFIG: ./.grype.yaml
-      with:
-        image: my-app:latest
-        output-format: sarif
-        output-file: grype-results.sarif
-        fail-build: false
-        severity-cutoff: medium
+      - name: Upload FCS image scan results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && hashFiles('scan-results.sarif') != ''
+        with:
+          sarif_file: "scan-results.sarif"
 
-    - name: Upload dependency scan results
-      uses: github/codeql-action/upload-sarif@v4
-      if: always() && hashFiles('iac-scan.sarif') != ''
-      with:
-        sarif_file: 'iac-scan.sarif'
-
-    - name: Upload FCS image scan results
-      uses: github/codeql-action/upload-sarif@v4
-      if: always() && hashFiles('scan-results.sarif') != ''
-      with:
-        sarif_file: 'scan-results.sarif'
-
-    - name: Upload Grype image scan results
-      uses: github/codeql-action/upload-sarif@v4
-      if: always() && hashFiles('grype-results.sarif') != ''
-      with:
-        sarif_file: 'grype-results.sarif'
+      - name: Upload Grype image scan results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && hashFiles('grype-results.sarif') != ''
+        with:
+          sarif_file: "grype-results.sarif"
