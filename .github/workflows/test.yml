@@ -46,6 +46,15 @@ jobs:
           report_formats: sarif
         env:
           FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+      - name: Grype image scan (table)
+        uses: anchore/scan-action@v6
+        env:
+          GRYPE_CONFIG: ./.grype.yaml
+        with:
+          image: my-app:latest
+          output-format: table
+          fail-build: false
+          severity-cutoff: medium
       - name: Grype image scan
         id: grype-scan
         uses: anchore/scan-action@v6
