@@ -28,12 +28,11 @@ jobs:
     - name: Build final image for scanning
       run: docker build -t my-app:latest .
 
-
     - name: Advanced Image Scan
       uses: crowdstrike/fcs-action@v4.0.0
       with:
         falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
-        falcon_region: 'us-1'
+        falcon_region: 'us-2'
         scan_type: image
         image: my-app:latest
         minimum_severity: medium
