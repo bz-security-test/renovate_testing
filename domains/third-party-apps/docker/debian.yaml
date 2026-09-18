@@ -1,0 +1,5 @@
+metadata:
+  owner: data-platforms
+  purpose: "digest-only test: pure codename tag, not major.minor.patch"
+  versions:
+    - source: docker.io/library/debian:bookworm-slim@sha256:0000000000000000000000000000000000000000000000000000000000000000

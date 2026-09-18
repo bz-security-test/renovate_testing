@@ -1,0 +1,7 @@
+metadata:
+  owner: data-platforms
+  purpose: "digest-only test: semver-style tag with -alpine suffix (control case)"
+  versions:
+    # Placeholder digest (all zeros) forces Renovate to detect drift and open a
+    # digest-only PR that rewrites ONLY the sha256, leaving the tag untouched.
+    - source: docker.io/library/redis:7.4-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000

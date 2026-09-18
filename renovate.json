@@ -29,6 +29,29 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "docker base images update 1",
       "automerge": true
+    },
+    {
+      "description": "Clean-room manifests: auto-merge sha/digest refreshes (tag stays the same)",
+      "matchFileNames": ["domains/third-party-apps/**"],
+      "matchUpdateTypes": ["digest"],
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "description": "Clean-room manifests: never touch the tag (patch/minor/major are deliberate manual entries)",
+      "matchFileNames": ["domains/third-party-apps/**"],
+      "matchUpdateTypes": ["patch", "minor", "major"],
+      "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^domains/third-party-apps/.*\\.yaml$/"],
+      "matchStrings": [
+        "source:\\s*\"?(?<depName>[^:\"]+):(?<currentValue>[^@\"]+)@(?<currentDigest>sha256:[a-f0-9]+)\"?"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
