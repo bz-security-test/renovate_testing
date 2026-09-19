@@ -2,4 +2,4 @@ metadata:
   owner: data-platforms
   purpose: "digest-only test: YYYY-MM-DD date tag (Jupyter stacks style)"
   versions:
-    - source: docker.io/jupyter/base-notebook:2023-10-20@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    - source: docker.io/jupyter/base-notebook:2023-10-20@sha256:8c903974902b0e9d45d9823c2234411de0614c5c98c4bb782b3d4f55b3e435e6
