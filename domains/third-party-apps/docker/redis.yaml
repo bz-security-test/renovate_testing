@@ -4,4 +4,4 @@ metadata:
   versions:
     # Placeholder digest (all zeros) forces Renovate to detect drift and open a
     # digest-only PR that rewrites ONLY the sha256, leaving the tag untouched.
-    - source: docker.io/library/redis:7.4-alpine@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    - source: docker.io/library/redis:7.4-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
