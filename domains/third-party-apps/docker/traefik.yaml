@@ -2,4 +2,4 @@ metadata:
   owner: data-platforms
   purpose: "digest-only test: v-prefixed tag"
   versions:
-    - source: docker.io/library/traefik:v3.1@sha256:0000000000000000000000000000000000000000000000000000000000000000
+    - source: docker.io/library/traefik:v3.1@sha256:74d72c7a1345984f186bddbabcc462b2128d0d8054177dc84afaeac4db1f0f56
