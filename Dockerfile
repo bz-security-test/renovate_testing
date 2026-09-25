@@ -3,7 +3,7 @@
 # Uses the hardened dev image which includes the full Go toolchain, gcc, and
 # git needed to download and compile the module graph.
 # =============================================================================
-FROM golang:1.22 AS builder
+FROM golang:1.27 AS builder
 
 
 
@@ -37,7 +37,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
 # no Go toolchain. Only the binary and its dependencies are present.
 # dhi.io images run as an existing nonroot user by default.
 # =============================================================================
-FROM golang:1.22
+FROM golang:1.27
 
 
 WORKDIR /app
