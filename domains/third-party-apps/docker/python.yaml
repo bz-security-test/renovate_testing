@@ -2,4 +2,4 @@ metadata:
   owner: data-platforms
   purpose: "digest-only test: version + distro suffix tag (mixed format)"
   versions:
-    - source: docker.io/library/python:3.12-slim-bookworm@sha256:54c85f3c47607a77f32adec749d3c81d1348bf25833671f512b26a9b6d778cb3
+    - source: docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
